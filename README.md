@@ -44,5 +44,6 @@ image from (Lee, K. et al, 2014)
 
 ## References
 - images and gramatical rules retrieved from https://en.wikipedia.org/wiki/Combinatory_categorial_grammar
-- implemantation hint retrieved from https://qiita.com/q-ikawa/items/cf1bb593185333d88d66
+- implementation hint retrieved from https://qiita.com/q-ikawa/items/cf1bb593185333d88d66
+- implementation hint retrieved from https://qiita.com/q-ikawa/items/233d877b9412bf3b1cd8
 - Lee, K., Artzi, Y., Dodge, J., & Zettlemoyer, L. (2014). Context-dependent Semantic Parsing for Time Expressions. ACL.

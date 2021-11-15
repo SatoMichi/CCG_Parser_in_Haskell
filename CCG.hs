@@ -24,6 +24,15 @@ type_rising a b "right" = Just (RightF b (LeftF b a))
 type_rising a b "left"  = Just (LeftF b (RightF b a))
 type_rising _ _ _ = Nothing
 
+-- parser 
+try :: Maybe DataType -> Maybe DataType -> Maybe DataType
+try (Just a) (Just b) = (filter (\a -> a /= Nothing) [application a b, composition a b, substitution a b])!!0
+
+parse_from_left :: [Maybe DataType] -> Maybe DataType
+parse_from_left [] = Nothing
+parse_from_left [a] = a
+parse_from_left (x:y:xs) = parse_from_left $ (try x y):xs
+
 a = Entity "a"
 b = Entity "b"
 c = Entity "c"
@@ -32,3 +41,17 @@ r2 = RightF b c
 r3 = RightF r1 c
 l1 = LeftF a b
 l2 = LeftF c a
+
+-- big dog have big big pen
+dog = Just $ Entity "Noun"                                                  -- N
+pen = Just $ Entity "Noun"                                                  -- N
+big = Just $ RightF (Entity "Noun") (Entity "Noun")                         -- N/N
+have = Just $ LeftF (RightF (Entity "S") (Entity "Noun")) (Entity "Noun")   -- (S/N)\N
+sent = [big,dog,have,big,big,pen]
+{-
+big dog = N/N N = N
+(big dog) have = N (S/N)\N = (S/N)
+((big dog) have) big = (S/N) (N/N) = (S/N)
+(((big dog) have) big) big = (S/N) (N/N) = (S/N)
+((((big dog) have) big) big) pen = (S/N) N = S
+}
