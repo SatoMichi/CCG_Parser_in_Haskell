@@ -5,12 +5,14 @@ HaskellによるCCG (組み合わせ範疇文法) パーサーの実装
 ## What is CCG (Combinatory Categorial Grammar)
 CCGはProfessor. Mark Steedmanによって提案された文法理論の一つである。CFG(文脈自由文法)などに代表される文法との違いは各単語が各カテゴリ(自然言語でいえば形態素など)に加えてセマンティクスを担う部分として型付きラムダ式を保持している点であるといえる。  
 CCG is a grammatical theory proposed by Professor. Mark Steedman, which differs from grammars such as CFG (Context-Free Grammar) in that each word has a typed lambda expression as its semantics in addition to its category (e.g. part of speech tag in natural language).  
+
 例(example):  
-![ccg1](https://user-images.githubusercontent.com/44910734/141712546-0dacaff3-e69d-4168-a081-b189a9fb7df9.JPG)
+![ccg1](https://user-images.githubusercontent.com/44910734/141712546-0dacaff3-e69d-4168-a081-b189a9fb7df9.JPG)  
 A/B = function which takes category B at the right side and return category A  
 A\B = function which takes category B at the left side and return category A
 
 There is several gramatical rules:  
+
 Application combinators  
 ![ccg2](https://user-images.githubusercontent.com/44910734/141713368-03e38218-b7ac-4fa4-b785-6446d709c1b9.JPG)  
 ">" = forward composition applying function forward (left to right)  
@@ -21,6 +23,15 @@ Composition combinators
 
 Type-raising combinators  
 ![ccg4](https://user-images.githubusercontent.com/44910734/141713377-3eb06197-009f-40a1-a90a-d0b4bf64455a.JPG)
+
+Substitution  
+```
+(X/Y)/Z Y/Z => X/Z 
+(X/Y)\Z Y\Z => X\Z
+Y\Z (X\Y)\Z => X\Z
+Y/Z (X\Y)/Z => X/Z
+```
+retireved from https://qiita.com/q-ikawa/items/cf1bb593185333d88d66
 
 Example of Proof:  
 ![ccg5](https://user-images.githubusercontent.com/44910734/141713635-1952a3c2-cf66-41f4-bf57-6250e8a93e36.JPG)
