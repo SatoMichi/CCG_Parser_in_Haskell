@@ -6,7 +6,7 @@ data DataType = Entity String | Bool Int | RightF DataType DataType | LeftF Data
 instance Show DataType where
     show  (Entity str) = str
     show  (RightF a b) ="("++ show  a ++"/"++ show  b++")"
-    show  (LeftF a b) ="("++  show  a ++ [(chr 92)] ++show  b++")" -- can't figure out a way to print a backslash without having 2 backslashes 
+    show  (LeftF a b) ="("++  show  a ++ "\\" ++show  b++")" -- can't figure out a way to print a backslash without having 2 backslashes 
     show _ = ""
 
 -- define combinators 
@@ -41,8 +41,8 @@ parse_from_left [a] = a
 parse_from_left (x:y:xs) = parse_from_left $ (try x y):xs
 
 show_parsed_sentence :: Maybe DataType -> String
-showSentence Nothing = error "Maybe.fromJust: Nothing"
-showSentence (Just x) = show x
+show_parsed_sentence Nothing = error "Maybe.fromJust: Nothing"
+show_parsed_sentence (Just x) = show x
 
 a = Entity "a"
 b = Entity "b"
