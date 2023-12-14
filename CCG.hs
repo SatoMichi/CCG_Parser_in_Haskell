@@ -61,3 +61,10 @@ have = Just $ LeftF (RightF (Entity "S") (Entity "N")) (Entity "N")   -- (S/N)\N
 eminem = Just $ Entity "N"
 sings = Just $ LeftF (Entity "S") (Entity "N")
 sent = [big,dog,have,big,big,pen]
+{-
+big dog = N/N N = N
+(big dog) have = N (S/N)\N = (S/N)
+((big dog) have) big = (S/N) (N/N) = (S/N)
+(((big dog) have) big) big = (S/N) (N/N) = (S/N)
+((((big dog) have) big) big) pen = (S/N) N = S
+}
