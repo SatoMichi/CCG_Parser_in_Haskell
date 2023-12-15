@@ -1,12 +1,19 @@
+import Data.Char (chr)
+
 -- defining data type
-data DataType = Entity String | Bool Int | RightF DataType DataType | LeftF DataType DataType deriving (Eq, Show)
+data DataType = Entity String | Bool Int | RightF DataType DataType | LeftF DataType DataType deriving (Eq)
+
+instance Show DataType where
+    show  (Entity str) = str
+    show  (RightF a b) ="("++ show  a ++"/"++ show  b++")"
+    show  (LeftF a b) ="("++  show  a ++ "\\" ++show  b++")" -- can't figure out a way to print a backslash without having 2 backslashes 
+    show _ = ""
 
 -- define combinators 
 application :: DataType -> DataType -> Maybe DataType
 application (RightF a b) entity = if b==entity then Just a else Nothing
 application entity (LeftF a b) = if b==entity then Just a else Nothing
 application _ _ = Nothing
-
 composition :: DataType -> DataType -> Maybe DataType
 composition (RightF a b) (RightF c d) = if b==c then Just (RightF a d) else Nothing
 composition (LeftF a b) (LeftF c d) = if a==d then Just (LeftF c b) else Nothing
@@ -33,6 +40,10 @@ parse_from_left [] = Nothing
 parse_from_left [a] = a
 parse_from_left (x:y:xs) = parse_from_left $ (try x y):xs
 
+show_parsed_sentence :: Maybe DataType -> String
+show_parsed_sentence Nothing = error "Maybe.fromJust: Nothing"
+show_parsed_sentence (Just x) = show x
+
 a = Entity "a"
 b = Entity "b"
 c = Entity "c"
@@ -43,10 +54,12 @@ l1 = LeftF a b
 l2 = LeftF c a
 
 -- big dog have big big pen
-dog = Just $ Entity "Noun"                                                  -- N
-pen = Just $ Entity "Noun"                                                  -- N
-big = Just $ RightF (Entity "Noun") (Entity "Noun")                         -- N/N
-have = Just $ LeftF (RightF (Entity "S") (Entity "Noun")) (Entity "Noun")   -- (S/N)\N
+dog = Just $ Entity "N"                                                  -- N
+pen = Just $ Entity "N"                                                  -- N
+big = Just $ RightF (Entity "N") (Entity "N")                         -- N/N
+have = Just $ LeftF (RightF (Entity "S") (Entity "N")) (Entity "N")   -- (S/N)\N
+eminem = Just $ Entity "N"
+sings = Just $ LeftF (Entity "S") (Entity "N")
 sent = [big,dog,have,big,big,pen]
 {-
 big dog = N/N N = N
